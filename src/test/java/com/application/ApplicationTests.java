@@ -1,8 +1,8 @@
 package com.application;
 
-import com.application.dtos.BotDto;
-import com.application.entities.Bot;
-import com.application.repositories.BotRepository;
+import com.application.dtos.UserRequestDto;
+import com.application.entities.User;
+import com.application.repositories.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.skyscreamer.jsonassert.JSONAssert;
@@ -28,7 +28,7 @@ class ApplicationTests {
     TestRestTemplate restTemplate = new TestRestTemplate();
 
     @Autowired
-    BotRepository botRepository;
+    UserRepository botRepository;
 
     HttpHeaders headers = new HttpHeaders();
 
@@ -42,7 +42,7 @@ class ApplicationTests {
     public void testGetBotsAPI() throws Exception {
         HttpEntity<String> entity = new HttpEntity<String>(null, headers);
 
-        String expected = getJsonString(botRepository.findAll().stream().map(BotDto::new).collect(Collectors.toList()));
+        String expected = getJsonString(botRepository.findAll().stream().map(UserRequestDto::new).collect(Collectors.toList()));
         ResponseEntity<String> response = restTemplate.exchange(createURLWithPort("/bots"), HttpMethod.GET, entity, String.class);
 
         JSONAssert.assertEquals(expected, response.getBody(), false);
@@ -53,13 +53,13 @@ class ApplicationTests {
     public void testGetBotByIdAPI() throws Exception {
         HttpEntity<String> entity = new HttpEntity<String>(null, headers);
 
-        Bot bot = botRepository.findFirstByOrderByIdAsc();
+        User bot = botRepository.findFirstByOrderByIdAsc();
         if(bot == null) {
             assertThat(true).isEqualTo(true);
             return;
         }
-        String expected = getJsonString(new BotDto(bot));
-        ResponseEntity<String> response = restTemplate.exchange(createURLWithPort("/bots/"+bot.getIdentifier()), HttpMethod.GET, entity, String.class);
+        String expected = getJsonString(new UserRequestDto(bot));
+        ResponseEntity<String> response = restTemplate.exchange(createURLWithPort("/bots/"+bot.getId()), HttpMethod.GET, entity, String.class);
 
         JSONAssert.assertEquals(expected, response.getBody(), false);
         assertThat(response.getStatusCodeValue()).isEqualTo(200);

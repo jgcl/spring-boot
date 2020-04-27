@@ -1,8 +1,8 @@
 package com.application.services;
 
-import com.application.entities.Bot;
+import com.application.entities.User;
 import com.application.entities.Message;
-import com.application.repositories.BotRepository;
+import com.application.repositories.UserRepository;
 import com.application.repositories.MessageRepository;
 import com.application.services.exceptions.ObjectNotFoundException;
 import com.application.services.exceptions.ValidateException;
@@ -17,7 +17,7 @@ public class MessageService {
     private MessageRepository messageRepository;
 
     @Autowired
-    private BotRepository botRepository;
+    private UserRepository botRepository;
 
     public Message findById(String id) {
         Optional<Message> message = messageRepository.findById(id);
@@ -42,8 +42,8 @@ public class MessageService {
     }
 
     private void validateToOrFromBot(Message message) {
-        Optional<Bot> from = botRepository.findByIdentifier(message.getFrom());
-        Optional<Bot> to = botRepository.findByIdentifier(message.getTo());
+        Optional<User> from = botRepository.findById(message.getFrom());
+        Optional<User> to = botRepository.findById(message.getTo());
 
         if(!from.isPresent() && !to.isPresent()) {
             throw new ValidateException("To or From must be a bot ID");

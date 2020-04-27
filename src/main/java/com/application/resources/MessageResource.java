@@ -1,6 +1,5 @@
 package com.application.resources;
 
-import com.application.dtos.MessageDto;
 import com.application.dtos.MessageRequestDto;
 import com.application.entities.Message;
 import com.application.services.MessageService;
@@ -15,7 +14,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/messages")
@@ -24,34 +22,33 @@ public class MessageResource {
     private MessageService messageService;
 
     @GetMapping
-    public ResponseEntity<List<MessageDto>> findByConversationId(@RequestParam(value="conversationId") String conversationId) {
+    public ResponseEntity<List<Message>> findByConversationId(@RequestParam(value="conversationId") String conversationId) {
         List<Message> list = messageService.findByConversationId(conversationId);
-        List<MessageDto> listDto = list.stream().map(x -> new MessageDto(x)).collect(Collectors.toList());
-        return ResponseEntity.ok().body(listDto);
+        return ResponseEntity.ok().body(list);
     }
 
     @GetMapping(value = "/{id}")
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Successful operation", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = MessageDto.class)) })
+        @ApiResponse(responseCode = "200", description = "Successful operation", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = MessageRequestDto.class)) })
     })
-    public ResponseEntity<MessageDto> findById(@PathVariable String id) {
+    public ResponseEntity<Message> findById(@PathVariable String id) {
         Message message = messageService.findById(id);
-        return ResponseEntity.ok().body(new MessageDto(message));
+        return ResponseEntity.ok().body(message);
     }
 
     @PostMapping(consumes = { "application/json" })
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Successful operation", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = MessageDto.class)) })
+        @ApiResponse(responseCode = "200", description = "Successful operation", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = MessageRequestDto.class)) })
     })
-    public ResponseEntity<MessageDto> insert(@RequestBody MessageRequestDto dto) {
-        MessageDto responseDto = new MessageDto(messageService.insert(dto.toMessage()));
+    public ResponseEntity<Message> insert(@RequestBody MessageRequestDto dto) {
+        Message message = messageService.insert(dto.toMessage());
 
         URI uri = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
-                .buildAndExpand(responseDto.getId())
+                .buildAndExpand(message.getId())
                 .toUri();
 
-        return ResponseEntity.created(uri).body(responseDto);
+        return ResponseEntity.created(uri).body(message);
     }
 }
