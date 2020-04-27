@@ -16,7 +16,7 @@ public class MessageRequestDto {
 
     @Getter
     @Setter
-    private String timestamp;
+    private Instant timestamp;
 
     @Getter
     @Setter
@@ -32,7 +32,7 @@ public class MessageRequestDto {
 
     public MessageRequestDto(Message obj) {
         this.conversationId = obj.getConversationId();
-        this.timestamp = obj.getTimestamp().toString();
+        this.timestamp = obj.getTimestamp();
         this.from = obj.getFrom();
         this.to = obj.getTo();
         this.text = obj.getText();
@@ -41,7 +41,7 @@ public class MessageRequestDto {
     public Message toMessage() {
         Message message = new Message();
             message.setConversationId(this.conversationId);
-            message.setTimestamp(Instant.parse(this.timestamp));
+            message.setTimestamp(this.timestamp);
             message.setFrom(this.from);
             message.setTo(this.to);
             message.setText(this.text);

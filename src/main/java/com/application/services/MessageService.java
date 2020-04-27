@@ -35,19 +35,19 @@ public class MessageService {
 
     private void insertUpdateValidations(Message message) {
         validation("conversationId", message.getConversationId());
-        validation("from", message.getFrom());
-        validation("to", message.getTo());
+        //validation("from", message.getFrom());
+        //validation("to", message.getTo());
         validation("text", message.getText());
         validateToOrFromBot(message);
     }
 
     private void validateToOrFromBot(Message message) {
-        Optional<User> from = botRepository.findById(message.getFrom());
+        /*Optional<User> from = botRepository.findById(message.getFrom());
         Optional<User> to = botRepository.findById(message.getTo());
 
         if(!from.isPresent() && !to.isPresent()) {
             throw new ValidateException("To or From must be a bot ID");
-        }
+        }*/
     }
 
     private void validation(String field, String value) {

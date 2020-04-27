@@ -3,6 +3,7 @@ package com.application.resources;
 import com.application.dtos.MessageRequestDto;
 import com.application.entities.Message;
 import com.application.services.MessageService;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -21,27 +22,27 @@ public class MessageResource {
     private MessageService messageService;
 
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Success", content = { @Content(mediaType = "application/json") })
+        @ApiResponse(responseCode="200", description="Success", content=@Content(array = @ArraySchema(schema = @Schema(implementation = Message.class))))
     })
-    @GetMapping
+    @GetMapping(produces={"application/json"})
     public ResponseEntity<List<Message>> findByConversationId(@RequestParam(value="conversationId") String conversationId) {
         List<Message> list = messageService.findByConversationId(conversationId);
         return ResponseEntity.ok().body(list);
     }
 
-    @GetMapping(value = "/{id}")
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Successful operation", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = Message.class)) })
+        @ApiResponse(responseCode="200", description="Successful operation", content={ @Content(schema = @Schema(implementation = Message.class)) })
     })
+    @GetMapping(value="/{id}", produces={"application/json"})
     public ResponseEntity<Message> findById(@PathVariable String id) {
         Message message = messageService.findById(id);
         return ResponseEntity.ok().body(message);
     }
 
-    @PostMapping(consumes = { "application/json" })
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "201", description = "Success", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = Message.class)) })
+        @ApiResponse(responseCode="201", description="Success", content={ @Content(schema = @Schema(implementation = Message.class)) })
     })
+    @PostMapping(consumes={"application/json"}, produces={"application/json"})
     public ResponseEntity<Message> insert(@RequestBody MessageRequestDto dto) {
         Message message = messageService.insert(dto.toMessage());
 

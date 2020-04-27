@@ -1,8 +1,10 @@
 package com.application.resources;
 
 import com.application.dtos.UserRequestDto;
+import com.application.entities.Message;
 import com.application.entities.User;
 import com.application.services.UserService;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -21,27 +23,27 @@ public class UserResource {
     private UserService userService;
 
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Success", content = { @Content(mediaType = "application/json") })
+        @ApiResponse(responseCode="200", description="Success", content=@Content(array = @ArraySchema(schema = @Schema(implementation = User.class))))
     })
-    @GetMapping
+    @GetMapping(produces = { "application/json" })
     public ResponseEntity<List<User>> findAll() {
         List<User> list = userService.getAll();
         return ResponseEntity.ok().body(list);
     }
 
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Success", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = User.class)) })
+        @ApiResponse(responseCode="200", description="Success", content={ @Content(schema = @Schema(implementation = User.class)) })
     })
-    @GetMapping(value = "/{id}")
+    @GetMapping(value="/{id}", consumes={"application/json"}, produces={"application/json"})
     public ResponseEntity<User> findByIdentifier(@PathVariable String id) {
         User user = userService.findById(id);
         return ResponseEntity.ok().body(user);
     }
 
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "201", description = "Success", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = User.class)) })
+        @ApiResponse(responseCode="201", description="Success", content={ @Content(schema = @Schema(implementation = User.class)) })
     })
-    @PostMapping
+    @PostMapping(consumes={"application/json"}, produces={"application/json"})
     public ResponseEntity<User> insert(@RequestBody UserRequestDto dto) {
         User user =  userService.insert(dto);
 
@@ -55,18 +57,18 @@ public class UserResource {
     }
 
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Success", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = User.class)) })
+        @ApiResponse(responseCode="200", description="Success", content={ @Content(schema = @Schema(implementation = User.class)) })
     })
-    @PutMapping(value = "/{id}")
+    @PutMapping(value="/{id}", consumes={"application/json"}, produces={"application/json"})
     public ResponseEntity<User> update(@PathVariable String id, @RequestBody UserRequestDto dto) {
         User user = userService.updateById(id, dto);
         return ResponseEntity.ok().body(user);
     }
 
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Success")
+        @ApiResponse(responseCode="200", description="Success")
     })
-    @DeleteMapping(value = "/{id}")
+    @DeleteMapping(value="/{id}", produces={"application/json"})
     public ResponseEntity<Void> delete(@PathVariable String id) {
         userService.deleteById(id);
         return ResponseEntity.ok().build();
