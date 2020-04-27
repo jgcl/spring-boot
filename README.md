@@ -2,7 +2,7 @@
 
 ## Solution
 
-- Java 11
+- Java 8+
 - Spring Boot 2.2.6
 - SpringDoc 1.3.4
 - Lombok
