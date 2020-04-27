@@ -18,4 +18,8 @@ public class User {
     @Getter
     @Setter
     private String name;
+
+    @Getter
+    @Setter
+    private String email;
 }

@@ -13,11 +13,16 @@ public class UserRequestDto {
     @Setter
     private String name;
 
+    @Getter
+    @Setter
+    private String email;
+
     public UserRequestDto(User obj) {
         this.name = obj.getName();
+        this.email = obj.getEmail();
     }
 
     public User toUser() {
-        return new User(null, name);
+        return new User(null, name, email);
     }
 }

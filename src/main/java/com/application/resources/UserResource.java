@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
 import java.net.URI;
 import java.util.List;
 
@@ -19,48 +18,57 @@ import java.util.List;
 @RequestMapping(value = "/users")
 public class UserResource {
     @Autowired
-    private UserService botService;
+    private UserService userService;
 
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Success", content = { @Content(mediaType = "application/json") })
+    })
     @GetMapping
     public ResponseEntity<List<User>> findAll() {
-        List<User> list = botService.getAll();
+        List<User> list = userService.getAll();
         return ResponseEntity.ok().body(list);
     }
 
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Successful operation", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = UserRequestDto.class)) })
+        @ApiResponse(responseCode = "200", description = "Success", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = User.class)) })
     })
     @GetMapping(value = "/{id}")
     public ResponseEntity<User> findByIdentifier(@PathVariable String id) {
-        User bot = botService.findById(id);
-        return ResponseEntity.ok().body(bot);
+        User user = userService.findById(id);
+        return ResponseEntity.ok().body(user);
     }
 
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Successful operation", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = UserRequestDto.class)) })
+        @ApiResponse(responseCode = "201", description = "Success", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = User.class)) })
     })
     @PostMapping
     public ResponseEntity<User> insert(@RequestBody UserRequestDto dto) {
-        User bot =  botService.insert(dto);
+        User user =  userService.insert(dto);
 
         URI uri = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
-                .buildAndExpand(bot.getId())
+                .buildAndExpand(user.getId())
                 .toUri();
 
-        return ResponseEntity.created(uri).body(bot);
+        return ResponseEntity.created(uri).body(user);
     }
 
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Success", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = User.class)) })
+    })
     @PutMapping(value = "/{id}")
     public ResponseEntity<User> update(@PathVariable String id, @RequestBody UserRequestDto dto) {
-        User user = botService.updateById(id, dto);
+        User user = userService.updateById(id, dto);
         return ResponseEntity.ok().body(user);
     }
 
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Success")
+    })
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> delete(@PathVariable String id) {
-        botService.deleteById(id);
+        userService.deleteById(id);
         return ResponseEntity.ok().build();
     }
 }

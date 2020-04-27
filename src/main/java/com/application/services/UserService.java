@@ -28,6 +28,9 @@ public class UserService {
         if(dto.getName() == null) {
             throw new ValidateException("The name field is empty");
         }
+        if(dto.getEmail() == null) {
+            throw new ValidateException("The name e-mail is empty");
+        }
         return userRepository.insert(dto.toUser());
     }
 
@@ -37,6 +40,7 @@ public class UserService {
         }
         User user = findById(id);
         user.setName(dto.getName());
+        user.setEmail(dto.getEmail());
         return userRepository.save(user);
     }
 

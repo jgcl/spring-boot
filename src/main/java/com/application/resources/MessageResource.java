@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
 import java.net.URI;
 import java.util.List;
 
@@ -21,6 +20,9 @@ public class MessageResource {
     @Autowired
     private MessageService messageService;
 
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Success", content = { @Content(mediaType = "application/json") })
+    })
     @GetMapping
     public ResponseEntity<List<Message>> findByConversationId(@RequestParam(value="conversationId") String conversationId) {
         List<Message> list = messageService.findByConversationId(conversationId);
@@ -29,7 +31,7 @@ public class MessageResource {
 
     @GetMapping(value = "/{id}")
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Successful operation", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = MessageRequestDto.class)) })
+        @ApiResponse(responseCode = "200", description = "Successful operation", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = Message.class)) })
     })
     public ResponseEntity<Message> findById(@PathVariable String id) {
         Message message = messageService.findById(id);
@@ -38,7 +40,7 @@ public class MessageResource {
 
     @PostMapping(consumes = { "application/json" })
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Successful operation", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = MessageRequestDto.class)) })
+        @ApiResponse(responseCode = "201", description = "Success", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = Message.class)) })
     })
     public ResponseEntity<Message> insert(@RequestBody MessageRequestDto dto) {
         Message message = messageService.insert(dto.toMessage());
