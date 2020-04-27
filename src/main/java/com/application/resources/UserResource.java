@@ -4,6 +4,7 @@ import com.application.dtos.UserRequestDto;
 import com.application.entities.Message;
 import com.application.entities.User;
 import com.application.services.UserService;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
