@@ -1,0 +1,17 @@
+image: docker:latest
+services:
+  - docker:dind
+
+variables:
+  DOCKER_DRIVER: overlay
+  SPRING_PROFILES_ACTIVE: gitlab-ci
+
+stages:
+  - build
+
+docker-build:
+  stage: build
+  script:
+    - docker login -u $DOCKER_HUB_USER_ID -p $DOCKER_HUB_PWD
+    - docker build -t jgcl88/spring-boot .
+    - docker push jgcl88/spring-boot

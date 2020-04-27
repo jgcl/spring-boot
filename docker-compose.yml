@@ -1,0 +1,31 @@
+version: "3.2"
+
+services:
+  mongo:
+    image: mongo:4.2.6-bionic
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    volumes:
+      - mongo_volume:/data/db
+    ports:
+      - 27017:27017
+
+  application:
+    image: jgcl88/spring-boot:latest
+    build:
+      dockerfile: Dockerfile
+      context: .
+    environment:
+      PORT: 8080
+      PROFILE: test
+      DB_URI: mongodb://root:example@mongo:27017/springBoot?authSource=admin&readPreference=primary
+    links:
+      - mongo:mongo
+    ports:
+      - 8080:8080
+
+volumes:
+  mongo_volume:
+    driver: local
+
