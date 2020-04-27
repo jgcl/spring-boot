@@ -1,6 +1,7 @@
 package com.application.dtos;
 
 import com.application.entities.Message;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,6 +11,7 @@ import java.time.Instant;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MessageRequestDto {
+    @Schema(example="5ea6f1925a50e86a4e0a266b", required=true)
     @Getter
     @Setter
     private String conversationId;
@@ -18,14 +20,17 @@ public class MessageRequestDto {
     @Setter
     private Instant timestamp;
 
+    @Schema(example="5ea6e5f13d8c1f5b4730747d", required=true)
     @Getter
     @Setter
     private String from;
 
+    @Schema(example="5ea6e5f33d8c1f5b4730747e", required=true)
     @Getter
     @Setter
     private String to;
 
+    @Schema(example="Hello, how are you?", required=true)
     @Getter
     @Setter
     private String text;
