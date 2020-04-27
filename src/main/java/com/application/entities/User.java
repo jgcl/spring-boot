@@ -6,6 +6,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @ToString(of = {"id", "name"})
 @EqualsAndHashCode(of = {"id"})
 @Document(collection = "users")

@@ -7,6 +7,7 @@ import java.time.Instant;
 
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @ToString(of = {"id", "timestamp", "from", "to", "text"})
 @EqualsAndHashCode(of = {"id"})
 @Document(collection = "messages")

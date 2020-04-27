@@ -44,12 +44,12 @@ public class MessageRequestDto {
     }
 
     public Message toMessage() {
-        Message message = new Message();
-            message.setConversationId(this.conversationId);
-            message.setTimestamp(this.timestamp);
-            message.setFrom(this.from);
-            message.setTo(this.to);
-            message.setText(this.text);
-        return message;
+        return Message.builder()
+                .conversationId(this.conversationId)
+                .timestamp(this.timestamp)
+                .from(this.from)
+                .to(this.to)
+                .text(this.text)
+                .build();
     }
 }

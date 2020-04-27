@@ -26,6 +26,9 @@ public class UserRequestDto {
     }
 
     public User toUser() {
-        return new User(null, name, email);
+        return User.builder()
+                .name(this.name)
+                .email(this.email)
+                .build();
     }
 }
