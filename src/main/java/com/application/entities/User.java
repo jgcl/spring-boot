@@ -8,7 +8,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@ToString(of = {"id", "name"})
+@ToString(of = {"id", "name", "email"})
 @EqualsAndHashCode(of = {"id"})
 @Document(collection = "users")
 public class User {

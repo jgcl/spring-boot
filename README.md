@@ -36,3 +36,9 @@ java -Dspring.data.mongodb.uri="mongodb://root:example@localhost:27017/spring-bo
 docker-compose pull
 docker-compose up -d
 ```
+
+## Run Tests 
+
+```bash
+mvn -Dtests.skip=false -Dspring.profiles.active=test test
+```

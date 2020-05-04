@@ -37,7 +37,7 @@ public class UserResource {
         @ApiResponse(responseCode="200", description="Success", content={ @Content(schema = @Schema(implementation = User.class)) }),
         @ApiResponse(responseCode="404", description="User not found error", content={ @Content(schema = @Schema(implementation = StandardError.class)) })
     })
-    @GetMapping(value="/{id}", consumes={"application/json"}, produces={"application/json"})
+    @GetMapping(value="/{id}", produces={"application/json"})
     public ResponseEntity<User> findByIdentifier(@PathVariable String id) {
         User user = userService.findById(id);
         return ResponseEntity.ok().body(user);
