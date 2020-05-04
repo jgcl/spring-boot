@@ -6,33 +6,36 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.validator.constraints.Length;
+
+import javax.validation.constraints.NotNull;
 import java.time.Instant;
 
 @NoArgsConstructor
 @AllArgsConstructor
 public class MessageRequestDto {
     @Schema(example="5ea6f1925a50e86a4e0a266b", required=true)
-    @Getter
-    @Setter
+    @Getter @Setter
     private String conversationId;
 
-    @Getter
-    @Setter
+    @Schema(example="2020-05-04T19:21:37.008Z", required=true)
+    @Getter @Setter
+    @NotNull 
     private Instant timestamp;
 
     @Schema(example="5ea6e5f13d8c1f5b4730747d", required=true)
-    @Getter
-    @Setter
+    @Getter @Setter
+    @NotNull @Length(min=3)
     private String from;
 
     @Schema(example="5ea6e5f33d8c1f5b4730747e", required=true)
-    @Getter
-    @Setter
+    @Getter @Setter
+    @NotNull @Length(min=3)
     private String to;
 
     @Schema(example="Hello, how are you?", required=true)
-    @Getter
-    @Setter
+    @Getter @Setter
+    @NotNull @Length(min=3)
     private String text;
 
     public MessageRequestDto(Message obj) {

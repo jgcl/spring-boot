@@ -6,18 +6,21 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.validator.constraints.Length;
+
+import javax.validation.constraints.NotNull;
 
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserRequestDto {
     @Schema(example="Jessica Abigail", required=true)
-    @Getter
-    @Setter
+    @Getter @Setter
+    @NotNull @Length(min=3)
     private String name;
 
     @Schema(example="jessica@gmail.com", required=true)
-    @Getter
-    @Setter
+    @Getter @Setter
+    @NotNull @Length(min=3)
     private String email;
 
     public UserRequestDto(User obj) {

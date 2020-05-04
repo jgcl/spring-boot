@@ -1,10 +1,9 @@
 package com.application.resources;
 
 import com.application.dtos.UserRequestDto;
-import com.application.entities.Message;
 import com.application.entities.User;
+import com.application.resources.exceptions.StandardError;
 import com.application.services.UserService;
-import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -14,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
@@ -33,7 +34,8 @@ public class UserResource {
     }
 
     @ApiResponses(value = {
-        @ApiResponse(responseCode="200", description="Success", content={ @Content(schema = @Schema(implementation = User.class)) })
+        @ApiResponse(responseCode="200", description="Success", content={ @Content(schema = @Schema(implementation = User.class)) }),
+        @ApiResponse(responseCode="404", description="User not found error", content={ @Content(schema = @Schema(implementation = StandardError.class)) })
     })
     @GetMapping(value="/{id}", consumes={"application/json"}, produces={"application/json"})
     public ResponseEntity<User> findByIdentifier(@PathVariable String id) {
@@ -42,7 +44,9 @@ public class UserResource {
     }
 
     @ApiResponses(value = {
-        @ApiResponse(responseCode="201", description="Success", content={ @Content(schema = @Schema(implementation = User.class)) })
+        @ApiResponse(responseCode="201", description="Success", content={ @Content(schema = @Schema(implementation = User.class)) }),
+        @ApiResponse(responseCode="422", description="Validation error", content={ @Content(schema = @Schema(implementation = StandardError.class)) }),
+        @ApiResponse(responseCode="500", description="Generic error", content={ @Content(schema = @Schema(implementation = StandardError.class)) })
     })
     @PostMapping(consumes={"application/json"}, produces={"application/json"})
     public ResponseEntity<User> insert(@RequestBody UserRequestDto dto) {
@@ -58,16 +62,20 @@ public class UserResource {
     }
 
     @ApiResponses(value = {
-        @ApiResponse(responseCode="200", description="Success", content={ @Content(schema = @Schema(implementation = User.class)) })
+        @ApiResponse(responseCode="200", description="Success", content={ @Content(schema = @Schema(implementation = User.class)) }),
+        @ApiResponse(responseCode="422", description="Validation error", content={ @Content(schema = @Schema(implementation = StandardError.class)) }),
+        @ApiResponse(responseCode="500", description="Generic error", content={ @Content(schema = @Schema(implementation = StandardError.class)) })
     })
     @PutMapping(value="/{id}", consumes={"application/json"}, produces={"application/json"})
-    public ResponseEntity<User> update(@PathVariable String id, @RequestBody UserRequestDto dto) {
+    public ResponseEntity<User> update(@PathVariable String id, @Valid @RequestBody UserRequestDto dto) {
         User user = userService.updateById(id, dto);
         return ResponseEntity.ok().body(user);
     }
 
     @ApiResponses(value = {
-        @ApiResponse(responseCode="200", description="Success")
+        @ApiResponse(responseCode="200", description="Success"),
+        @ApiResponse(responseCode="404", description="User not found error", content={ @Content(schema = @Schema(implementation = StandardError.class)) }),
+        @ApiResponse(responseCode="500", description="Generic error", content={ @Content(schema = @Schema(implementation = StandardError.class)) })
     })
     @DeleteMapping(value="/{id}", produces={"application/json"})
     public ResponseEntity<Void> delete(@PathVariable String id) {

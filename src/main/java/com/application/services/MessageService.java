@@ -1,5 +1,6 @@
 package com.application.services;
 
+import com.application.dtos.MessageRequestDto;
 import com.application.entities.User;
 import com.application.entities.Message;
 import com.application.repositories.UserRepository;
@@ -34,25 +35,17 @@ public class MessageService {
     }
 
     private void insertUpdateValidations(Message message) {
-        validation("conversationId", message.getConversationId());
-        //validation("from", message.getFrom());
-        //validation("to", message.getTo());
-        validation("text", message.getText());
         validateToOrFromBot(message);
     }
 
     private void validateToOrFromBot(Message message) {
-        /*Optional<User> from = botRepository.findById(message.getFrom());
+        Optional<User> from = botRepository.findById(message.getFrom());
         Optional<User> to = botRepository.findById(message.getTo());
 
-        if(!from.isPresent() && !to.isPresent()) {
+        if(from.isEmpty() && to.isEmpty()) {
             throw new ValidateException("To or From must be a bot ID");
-        }*/
-    }
-
-    private void validation(String field, String value) {
-        if(value == null) {
-            throw new ValidateException("The '"+field+"' field is empty");
         }
     }
+
+
 }
