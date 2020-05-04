@@ -49,7 +49,7 @@ public class UserResource {
         @ApiResponse(responseCode="500", description="Generic error", content={ @Content(schema = @Schema(implementation = StandardError.class)) })
     })
     @PostMapping(consumes={"application/json"}, produces={"application/json"})
-    public ResponseEntity<User> insert(@RequestBody UserRequestDto dto) {
+    public ResponseEntity<User> insert(@Valid @RequestBody UserRequestDto dto) {
         User user =  userService.insert(dto);
 
         URI uri = ServletUriComponentsBuilder

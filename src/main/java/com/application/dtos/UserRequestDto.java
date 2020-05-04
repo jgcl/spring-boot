@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 
 @NoArgsConstructor
@@ -21,6 +22,7 @@ public class UserRequestDto {
     @Schema(example="jessica@gmail.com", required=true)
     @Getter @Setter
     @NotNull @Length(min=3)
+    @Email(message = "Email should be valid")
     private String email;
 
     public UserRequestDto(User obj) {

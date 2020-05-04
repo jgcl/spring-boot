@@ -25,19 +25,11 @@ public class UserService {
     }
 
     public User insert(UserRequestDto dto) {
-        if(dto.getName() == null) {
-            throw new ValidateException("The name field is empty");
-        }
-        if(dto.getEmail() == null) {
-            throw new ValidateException("The name e-mail is empty");
-        }
+        validations(dto);
         return userRepository.insert(dto.toUser());
     }
 
     public User updateById(String id, UserRequestDto dto) {
-        if(dto.getName() == null) {
-            throw new ValidateException("The name field is empty");
-        }
         User user = findById(id);
         user.setName(dto.getName());
         user.setEmail(dto.getEmail());
@@ -47,5 +39,11 @@ public class UserService {
     public void deleteById(String id) {
         User user = findById(id);
         userRepository.delete(user);
+    }
+
+    private void validations(UserRequestDto dto) {
+        if(userRepository.findFirstByEmail(dto.getEmail()) != null) {
+            throw new ValidateException("E-mail already exists: "+dto.getEmail());
+        }
     }
 }
