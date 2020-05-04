@@ -1,5 +1,6 @@
-package com.application;
+package com.application.integrationTest;
 
+import com.application.Definition;
 import com.application.dtos.UserRequestDto;
 import com.application.entities.User;
 import com.application.repositories.UserRepository;
