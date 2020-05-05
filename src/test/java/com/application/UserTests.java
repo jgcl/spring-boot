@@ -1,6 +1,5 @@
-package com.application.integrationTest;
+package com.application;
 
-import com.application.Definition;
 import com.application.dtos.UserRequestDto;
 import com.application.entities.User;
 import com.application.repositories.UserRepository;
@@ -12,10 +11,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import java.util.List;
-
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -30,13 +26,6 @@ class UserTests extends Definition {
     @Test
     public void contextLoads() throws Exception {
         assertThat(userRepository).isNotNull();
-    }
-
-    @Test
-    public void repositoryFindAllTest() throws Exception {
-        List<User> list = userRepository.findAll();
-
-        assertEquals(0, list.size());
     }
 
     @Test

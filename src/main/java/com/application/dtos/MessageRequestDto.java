@@ -21,7 +21,7 @@ public class MessageRequestDto {
     @Schema(example="2020-05-04T19:21:37.008Z", required=true)
     @Getter @Setter
     @NotNull 
-    private Instant timestamp;
+    private String timestamp;
 
     @Schema(example="5ea6e5f13d8c1f5b4730747d", required=true)
     @Getter @Setter
@@ -40,7 +40,7 @@ public class MessageRequestDto {
 
     public MessageRequestDto(Message obj) {
         this.conversationId = obj.getConversationId();
-        this.timestamp = obj.getTimestamp();
+        this.timestamp = obj.getTimestamp().toString();
         this.from = obj.getFrom();
         this.to = obj.getTo();
         this.text = obj.getText();
@@ -49,7 +49,7 @@ public class MessageRequestDto {
     public Message toMessage() {
         return Message.builder()
                 .conversationId(this.conversationId)
-                .timestamp(this.timestamp)
+                .timestamp(Instant.parse(this.timestamp))
                 .from(this.from)
                 .to(this.to)
                 .text(this.text)
