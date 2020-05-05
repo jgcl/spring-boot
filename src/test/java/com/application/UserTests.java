@@ -93,7 +93,7 @@ class UserTests extends Definition {
     @Test
     public void deleteUserApiTest() throws Exception
     {
-        User user = userRepository.findByEmail("ae@ae.com");
+        User user = userRepository.findFirstByEmail("ae@ae.com");
 
         mockMvc.perform( MockMvcRequestBuilders
                 .delete("/users/"+user.getId())

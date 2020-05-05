@@ -15,8 +15,12 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public List<User> getAll() {
-        return userRepository.findAll();
+    public List<User> getAll(String name, String email) {
+        if(name != null || email != null) {
+            return userRepository.findByNameOrEmailRegex(name, email);
+        } else {
+            return userRepository.findAll();
+        }
     }
 
     public User findById(String id) {

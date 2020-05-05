@@ -3,6 +3,7 @@ package com.application.resources;
 import com.application.dtos.UserRequestDto;
 import com.application.entities.User;
 import com.application.resources.exceptions.StandardError;
+import com.application.resources.util.URL;
 import com.application.services.UserService;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -28,8 +29,14 @@ public class UserResource {
         @ApiResponse(responseCode="200", description="Success", content=@Content(array = @ArraySchema(schema = @Schema(implementation = User.class))))
     })
     @GetMapping(produces = { "application/json" })
-    public ResponseEntity<List<User>> findAll() {
-        List<User> list = userService.getAll();
+    public ResponseEntity<List<User>> findAll(
+        @RequestParam(value="name", required=false) String name,
+        @RequestParam(value="email", required=false) String email
+    ) {
+        name = URL.decodeParam(name);
+        email = URL.decodeParam(email);
+
+        List<User> list = userService.getAll(name, email);
         return ResponseEntity.ok().body(list);
     }
 
