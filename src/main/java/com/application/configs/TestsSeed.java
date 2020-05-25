@@ -1,7 +1,7 @@
 package com.application.configs;
 
-import com.application.repositories.MessageRepository;
-import com.application.repositories.UserRepository;
+import com.application.repositories.MessageGenericRepository;
+import com.application.repositories.UserGenericRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
@@ -11,10 +11,10 @@ import org.springframework.context.annotation.Profile;
 @Profile("test")
 public class TestsSeed implements CommandLineRunner {
     @Autowired
-    private UserRepository userRepository;
+    private UserGenericRepository userRepository;
 
     @Autowired
-    private MessageRepository messageRepository;
+    private MessageGenericRepository messageRepository;
 
     @Override
     public void run(String... args) throws Exception {

@@ -1,10 +1,9 @@
 package com.application.services;
 
-import com.application.dtos.MessageRequestDto;
 import com.application.entities.User;
 import com.application.entities.Message;
-import com.application.repositories.UserRepository;
-import com.application.repositories.MessageRepository;
+import com.application.repositories.UserGenericRepository;
+import com.application.repositories.MessageGenericRepository;
 import com.application.services.exceptions.ObjectNotFoundException;
 import com.application.services.exceptions.ValidateException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +14,10 @@ import java.util.Optional;
 @Service
 public class MessageService {
     @Autowired
-    private MessageRepository messageRepository;
+    private MessageGenericRepository messageRepository;
 
     @Autowired
-    private UserRepository botRepository;
+    private UserGenericRepository botRepository;
 
     public Message findById(String id) {
         Optional<Message> message = messageRepository.findById(id);

@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface MessageRepository extends MongoRepository<Message, String> {
+public interface MessageGenericRepository extends MongoRepository<Message, String> {
     List<Message> findByConversationId(String conversationId);
 }

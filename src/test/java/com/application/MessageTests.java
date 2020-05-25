@@ -3,8 +3,8 @@ package com.application;
 import com.application.dtos.MessageRequestDto;
 import com.application.entities.Message;
 import com.application.entities.User;
-import com.application.repositories.MessageRepository;
-import com.application.repositories.UserRepository;
+import com.application.repositories.MessageGenericRepository;
+import com.application.repositories.UserGenericRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,10 +27,10 @@ class MessageTests extends Definition {
     private MockMvc mockMvc;
 
     @Autowired
-    private UserRepository userRepository;
+    private UserGenericRepository userRepository;
 
     @Autowired
-    private MessageRepository messageRepository;
+    private MessageGenericRepository messageRepository;
 
     @Test
     public void contextLoads() throws Exception {
